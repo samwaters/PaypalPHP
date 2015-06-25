@@ -14,8 +14,10 @@
   "require": {
     "php": ">=5.3.0"
   },
-  "psr-0": {
-    "PaypalPHP\\": "src/"
+  "autoload": {
+    "psr-0": {
+      "PaypalPHP": "src/"
+    }
   },
   "minimum-stability": "dev"
 }
