@@ -5,6 +5,7 @@
  */
 namespace PaypalPHP\Managers;
 use PaypalPHP\Exceptions\TransactionSearchException;
+use PaypalPHP\Helpers\UrlHelper;
 use PaypalPHP\Responses\TransactionSearchResponse;
 
 /**
@@ -46,7 +47,7 @@ class TransactionManager
     $url .= "?METHOD=TransactionSearch&VERSION=114.0";
     $url .= "&USER=" . $this->_config["username"];
     $url .= "&PWD=" . $this->_config["password"];
-    $url .= "&SIGNATURE=" . $this->_config["signature"] . "&";
+    $url .= "&SIGNATURE=" . $this->_config["signature"];
     if(count($searchParameters) == 0)
     {
       throw new TransactionSearchException("At least one search parameter must be specified");
@@ -58,7 +59,7 @@ class TransactionManager
       {
         throw new TransactionSearchException("$parameter is not a valid search parameter");
       }
-      $url .= $parameter . "=" . urlencode($value);
+      $url .= "&" . $parameter . "=" . urlencode($value);
     }
     curl_setopt($localClient, CURLOPT_URL, $url);
     $rawResponse = curl_exec($localClient);
@@ -75,7 +76,9 @@ class TransactionManager
       $key = strtolower($responseValues[0]);
       if($key == "ack" && $responseValues[1] != "Success")
       {
-        throw new TransactionSearchException("Could not perform search: $rawResponse");
+        $error = new \stdClass();
+        UrlHelper::urlToObject($rawResponse, $error);
+        throw new TransactionSearchException("Could not perform search: " . $error->l_shortmessage0 . "(" . $error->l_longmessage0 . ")");
       }
       $matches = array();
       if(preg_match($filter, $key, $matches))
