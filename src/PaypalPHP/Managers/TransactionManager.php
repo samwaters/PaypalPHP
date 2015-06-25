@@ -43,7 +43,10 @@ class TransactionManager
     );
     $localClient = curl_copy_handle($this->_client);
     $url = $this->_config["nvp_endpoint"];
-    $url .= "?METHOD=TransactionSearch&VERSION=114.0&";
+    $url .= "?METHOD=TransactionSearch&VERSION=114.0";
+    $url .= "&USER=" . $this->_config["username"];
+    $url .= "&PWD=" . $this->_config["password"];
+    $url .= "&SIGNATURE=" . $this->_config["signature"] . "&";
     if(count($searchParameters) == 0)
     {
       throw new TransactionSearchException("At least one search parameter must be specified");
