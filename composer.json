@@ -1,0 +1,21 @@
+{
+  "name": "samwaters/paypalphp",
+  "descrtiption": "PHP PayPal API Client",
+  "version": "1.0.0",
+  "keywords": ["paypal", "php"],
+  "homepage": "http://www.samwaters.com",
+  "license": "DBAD",
+  "authors": [
+    {
+      "name": "Sam Waters",
+      "email": "sam@samwaters.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "psr-0": {
+    "PaypalPHP\\": "src/"
+  },
+  "minimum-stability": "dev"
+}
